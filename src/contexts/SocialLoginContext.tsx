@@ -14,6 +14,7 @@ interface web3AuthContextType {
   chainId: number;
   address: string;
   userInfo: any;
+  ensName: string;
 }
 export const Web3AuthContext = React.createContext<web3AuthContextType>({
   connect: () => Promise.resolve(null),
@@ -26,6 +27,7 @@ export const Web3AuthContext = React.createContext<web3AuthContextType>({
   chainId: activeChainId,
   address: "",
   userInfo: null,
+  ensName: "",
 });
 export const useWeb3AuthContext = () => useContext(Web3AuthContext);
 
@@ -40,6 +42,7 @@ type StateType = {
   ethersProvider?: ethers.providers.Web3Provider | null;
   address?: string;
   chainId?: number;
+  ensName?: string;
 };
 const initialState: StateType = {
   provider: null,
@@ -47,11 +50,12 @@ const initialState: StateType = {
   ethersProvider: null,
   address: "",
   chainId: activeChainId,
+  ensName: "",
 };
 
 export const Web3AuthProvider = ({ children }: any) => {
   const [web3State, setWeb3State] = useState<StateType>(initialState);
-  const { provider, web3Provider, ethersProvider, address, chainId } =
+  const { provider, web3Provider, ethersProvider, address, chainId, ensName } =
     web3State;
   const [loading, setLoading] = useState(false);
   const [socialLoginSDK, setSocialLoginSDK] = useState<SocialLogin | null>(
@@ -78,12 +82,15 @@ export const Web3AuthProvider = ({ children }: any) => {
       const signer = web3Provider.getSigner();
       const gotAccount = await signer.getAddress();
       const network = await web3Provider.getNetwork();
+      const ensName = await web3Provider.lookupAddress(gotAccount);
+
       setWeb3State({
         provider: socialLoginSDK.provider,
         web3Provider: web3Provider,
         ethersProvider: web3Provider,
         address: gotAccount,
         chainId: Number(network.chainId),
+        ensName: ensName ?? "",
       });
       setLoading(false);
       return;
@@ -156,6 +163,7 @@ export const Web3AuthProvider = ({ children }: any) => {
         chainId: chainId || 0,
         address: address || "",
         userInfo,
+        ensName: ensName || "",
       }}
     >
       {children}

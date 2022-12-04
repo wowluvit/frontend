@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSmartAccountContext } from "./contexts/SmartAccountContext";
 import { useWeb3AuthContext } from "./contexts/SocialLoginContext";
 import Button from "./components/Button";
+import { ethers } from "ethers";
 
 const App: React.FC = () => {
+  const [name, setEnsName] = useState("");
+  const [walletddress, seWalletAdress] = useState("");
   const classes = useStyles();
   const {
     address,
@@ -13,17 +16,31 @@ const App: React.FC = () => {
     connect,
     disconnect,
     getUserInfo,
-    provider
+    provider,
+    ensName,
   } = useWeb3AuthContext();
   const {
     selectedAccount,
     loading: scwLoading,
     setSelectedAccount,
-    getSmartAccount
+    getSmartAccount,
   } = useSmartAccountContext();
 
-  getSmartAccount().then(account => {account})
+  getSmartAccount().then((account) => {
+    console.log(account);
+  });
   console.log("address", address);
+
+  // useEffect(() => {
+  //   if (address) {
+  //     resolveEns();
+  //   }
+  // }, [address, provider]);
+
+  // async function resolveEns() {
+  //   var ensName = await ethers.providers.Web3Provider
+  //   setEnsName(ensName);
+  // }
 
   return (
     <div className={classes.bgCover}>
@@ -32,7 +49,9 @@ const App: React.FC = () => {
         <Button
           onClickFunc={
             !address
-              ? connect
+              ? async () => {
+                  connect();
+                }
               : () => {
                   setSelectedAccount(null);
                   disconnect();
@@ -56,6 +75,7 @@ const App: React.FC = () => {
           <div>
             <h2>Smart Account Address</h2>
             <p>{selectedAccount.smartAccountAddress}</p>
+            <p>{ensName}</p>
           </div>
         )}
 
@@ -90,7 +110,7 @@ const useStyles = makeStyles(() => ({
     flexDirection: "column",
     width: "100%",
     minHeight: "80vh",
-    height: 'auto',
+    height: "auto",
     justifyContent: "center",
     alignItems: "center",
   },

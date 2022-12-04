@@ -6876,6 +6876,11 @@ enquirer@^2.3.0, enquirer@^2.3.6:
   dependencies:
     ansi-colors "^4.1.1"
 
+ens@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/ens/-/ens-0.0.1.tgz#855270b81564c94e12557b5dd3fc21e5e0647ff6"
+  integrity sha512-oQtH+qCxMUCyCSvHJRISfazScahozjzyVKNLhVmhQslot+puDsYCHQ6YykN4BM7x7uD79lvxI1u2vx/u4PANYg==
+
 entities@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/entities/-/entities-2.2.0.tgz#098dc90ebb83d8dffa089d55256b351d34c4da55"
