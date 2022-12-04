@@ -1,8 +1,8 @@
 import React from "react";
 import axios from "axios";
-import ethers from "ethers";
 import lighthouse from "@lighthouse-web3/sdk";
-import { useWeb3AuthContext } from "../contexts/SocialLoginContext";
+import { useMoralis } from "react-moralis";
+// import { useWeb3AuthContext } from "../contexts/SocialLoginContext";
 
 function DeployFiles() {
   const sign_message = async () => {
@@ -11,7 +11,8 @@ function DeployFiles() {
     });
     // const provider = new ethers.providers.Web3Provider(window.ethereum);
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { provider } = useWeb3AuthContext();
+    const { provider } = useMoralis();
+    // const { provider } = useWeb3AuthContext();
     const signer = provider.getSigner();
     const address = await signer.getAddress(); //users public key
     const messageRequested = (
