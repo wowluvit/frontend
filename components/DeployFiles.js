@@ -12,7 +12,6 @@ function DeployFiles() {
     // const provider = new ethers.providers.Web3Provider(window.ethereum);
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const { provider } = useMoralis();
-    // const { provider } = useWeb3AuthContext();
     const signer = provider.getSigner();
     const address = await signer.getAddress(); //users public key
     const messageRequested = (
